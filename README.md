@@ -81,8 +81,6 @@ pip install -r requirements.txt
    - Web Interface: http://localhost:8000
    - API Documentation: http://localhost:8000/docs
 
-![Docker Setup](./images/docker-setup.png)
-
 ### Option 2: Local Development
 
 1. **Create a virtual environment**:
@@ -168,8 +166,6 @@ python main.py
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-![Application Running](./images/app-running.png)
-
 ## 💡 Usage
 
 ### Quick Start: Premier League Knowledge Base Demo
@@ -182,7 +178,7 @@ This guide demonstrates DynaRAG's dynamic capabilities by showing the **before a
 
 After starting the application (Docker or Python), open your browser to http://localhost:8000
 
-![DynaRAG Home - Empty](./images/dynarag-home-empty.png)
+![DynaRAG Home - Empty](./imgs/dynarag-home-empty.png)
 
 The application starts with an **empty knowledge base** (no documents loaded).
 
@@ -194,13 +190,11 @@ Let's verify DynaRAG has no Premier League knowledge yet.
 
 **Ask**: "Who won the Premier League in 1992-93?"
 
-![Question Before Data](./images/question-before-data.png)
-
 DynaRAG will return either:
 - **No results found**, or
 - A generic response indicating it doesn't have relevant information
 
-![No Results](./images/no-results.png)
+![Question Before Data](./imgs/question-before-data.png)
 
 This proves the system is working correctly - it won't make up answers without data!
 
@@ -210,7 +204,7 @@ This proves the system is working correctly - it won't make up answers without d
 
 Now let's give DynaRAG some knowledge. Click the **⚙️ Settings** tab.
 
-![Settings Tab Empty](./images/settings-tab-empty.png)
+![Settings Tab Empty](./imgs/settings-tab-empty.png)
 
 You'll see:
 - **Document Paths**: Currently empty
@@ -221,7 +215,7 @@ You'll see:
 1. Type the path: `./premier_league_data/wikipedia`
 2. Click **Add Path**
 
-![Adding Document Path](./images/adding-document-path.png)
+![Adding Document Path](./imgs/adding-document-path.png)
 
 The path is now added to the list.
 
@@ -231,7 +225,7 @@ The path is now added to the list.
 
 Scroll down in the Settings tab and click **🔄 Reindex Documents**
 
-![Reindex Button](./images/reindex-button.png)
+![Reindex Button](./imgs/reindex-button.png)
 
 DynaRAG will:
 - Scan the folder (80+ Wikipedia articles)
@@ -239,7 +233,7 @@ DynaRAG will:
 - Generate embeddings
 - Store in the vector database
 
-![Reindexing Progress](./images/reindexing-progress.png)
+![Reindexing Progress](./imgs/reindexing-progress.png)
 
 You'll see a success message when complete:
 - **"Successfully reindexed X documents"**
@@ -252,14 +246,14 @@ Return to the **💬 Question** tab and ask the same question:
 
 **Ask**: "Who won the Premier League in 1992-93?"
 
-![Question After Data](./images/question-after-data.png)
+![Question After Data](./imgs/question-after-data.png)
 
 Now DynaRAG returns:
 - **✅ Detailed Answer**: "Manchester United won the inaugural Premier League season in 1992-93..."
 - **📚 Source Context**: Relevant passages from the Wikipedia articles
 - **🔢 Multiple Chunks**: Shows which documents the information came from
 
-![Answer with Results](./images/answer-with-results.png)
+![Answer with Results](./imgs/answer-with-results.png)
 
 **The RAG is working!** 🎉
 
@@ -271,7 +265,7 @@ Now that the knowledge base is loaded, explore the full dataset:
 
 **Question**: "Tell me about Leicester City's miracle season in 2015-16"
 
-![Complex Question](./images/complex-question.png)
+![Complex Question](./imgs/complex-question.png)
 
 DynaRAG retrieves multiple relevant passages and synthesizes a comprehensive answer about Leicester's historic Premier League victory.
 
@@ -281,7 +275,7 @@ DynaRAG retrieves multiple relevant passages and synthesizes a comprehensive ans
 
 Scroll down on any tab to see **System Statistics**:
 
-![System Statistics](./images/system-statistics.png)
+![System Statistics](./imgs/system-statistics.png)
 
 - **Total Documents**: Number of indexed documents
 - **Collection Name**: Your vector database name
@@ -317,8 +311,6 @@ Try these to explore the Premier League knowledge base:
 - "Who won the Premier League in 2023-24?"
 - "What has Manchester City achieved recently?"
 - "Tell me about Liverpool under Jürgen Klopp"
-
-![Example Questions](./images/example-questions.png)
 
 ### API Usage
 
@@ -417,7 +409,6 @@ FastAPI provides interactive API documentation:
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
 
-![API Documentation](./images/api-docs.png)
 
 ## 📊 Data Collection
 
@@ -441,8 +432,6 @@ BizMind includes a Jupyter notebook for collecting Premier League data from Wiki
 3. **Data location**: Articles are saved in `premier_league_data/wikipedia/`
 
 4. **Automatic indexing**: The data is automatically indexed when the application starts
-
-![Data Collection](./images/data-collection.png)
 
 ### Adding Your Own Documents
 
@@ -469,7 +458,7 @@ BizMind includes a Jupyter notebook for collecting Premier League data from Wiki
 ## 📁 Project Structure
 
 ```
-BizMind/
+DynaRAG/
 ├── main.py                          # FastAPI application entry point
 ├── requirements.txt                 # Python dependencies
 ├── config.json                      # Configuration file
@@ -514,8 +503,6 @@ BizMind/
 5. **Similarity Search**: Most relevant chunks are retrieved based on cosine similarity
 6. **Answer Generation**: Retrieved context is used to generate accurate answers
 7. **Response**: Answer and source chunks are returned to the user
-
-![RAG Pipeline](./images/rag-pipeline.png)
 
 ## 🛠️ Technology Stack
 
@@ -592,40 +579,3 @@ flake8 .
 2. Update configuration if needed
 3. Rebuild Docker container: `docker-compose up -d --build`
 4. Test the changes
-
-## 📝 License
-
-This project is provided as-is for educational and commercial use.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to:
-- Report bugs
-- Suggest features
-- Submit pull requests
-- Improve documentation
-
-## 📧 Support
-
-For questions or issues:
-- Check the [Troubleshooting](#troubleshooting) section
-- Review the API documentation at `/docs`
-- Open an issue on the project repository
-
-## 🎯 Roadmap
-
-Future enhancements:
-- [ ] Multi-language support
-- [ ] PDF document support
-- [ ] Advanced query filtering
-- [ ] User authentication
-- [ ] Query history and analytics
-- [ ] Fine-tuned models for domain-specific tasks
-- [ ] Real-time document updates
-- [ ] Export/import configuration
-
----
-
-**Built with ❤️ using FastAPI, ChromaDB, and Hugging Face**
-
-![Footer](./images/footer.png)

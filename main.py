@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 from rag_mind.rag_model import RAGModel
 from rag_mind.config import ConfigManager
 
+import uvicorn
+
 # Load environment variables
 load_dotenv()
 
@@ -208,5 +210,4 @@ async def get_stats():
 
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)

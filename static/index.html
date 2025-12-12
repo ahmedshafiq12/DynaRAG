@@ -42,32 +42,6 @@
                         ></textarea>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="n-results">Number of Results:</label>
-                            <input 
-                                type="number" 
-                                id="n-results" 
-                                name="n_results" 
-                                min="1" 
-                                max="20" 
-                                value="5"
-                            >
-                        </div>
-
-                        <div class="form-group checkbox-group">
-                            <label>
-                                <input 
-                                    type="checkbox" 
-                                    id="use-augmentation" 
-                                    name="use_augmentation" 
-                                    checked
-                                >
-                                Use Query Augmentation
-                            </label>
-                        </div>
-                    </div>
-
                     <button type="submit" class="btn btn-primary" id="ask-button">
                         <span class="btn-icon">🔍</span>
                         Ask Question
@@ -195,6 +169,32 @@
                             value="256"
                         >
                         <small class="help-text">Token limit for each chunk</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="n-results">Number of Results:</label>
+                        <input 
+                            type="number" 
+                            id="n-results" 
+                            name="n_results" 
+                            min="1" 
+                            max="20" 
+                            value="5"
+                        >
+                        <small class="help-text">Number of relevant chunks to retrieve</small>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                id="use-augmentation" 
+                                name="use_augmentation" 
+                                checked
+                            >
+                            Use Query Augmentation
+                        </label>
+                        <small class="help-text">Enhance queries with automatic augmentation</small>
                     </div>
 
                     <button type="submit" class="btn btn-primary">

@@ -1,0 +1,9 @@
+{
+    "document_paths": [],
+    "collection_name": "rag_collection",
+    "n_results": 5,
+    "use_augmentation": true,
+    "chunk_size": 1000,
+    "chunk_overlap": 100,
+    "tokens_per_chunk": 256
+}

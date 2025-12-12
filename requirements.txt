@@ -1,0 +1,25 @@
+# Core dependencies
+python-dotenv
+chromadb
+pypdf
+numpy
+pandas
+
+# Hugging Face
+huggingface-hub
+sentence-transformers
+
+# LangChain for text splitting
+langchain
+langchain-text-splitters
+
+# FastAPI and web server
+fastapi
+uvicorn[standard]
+pydantic
+
+# UMAP for dimensionality reduction (optional, for visualization)
+umap-learn
+
+# Additional utilities
+requests

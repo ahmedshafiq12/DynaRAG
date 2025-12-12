@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DynaRAG - Dynamic RAG Engine</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 DynaRAG</h1>
+            <p class="subtitle">Dynamic Retrieval-Augmented Generation for Any Document</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="question">
+                <span class="tab-icon">💬</span>
+                Question
+            </button>
+            <button class="tab-button" data-tab="settings">
+                <span class="tab-icon">⚙️</span>
+                Settings
+            </button>
+        </div>
+
+        <!-- Question Tab Content -->
+        <div id="question-tab" class="tab-content active">
+            <div class="card">
+                <h2>Ask a Question</h2>
+                
+                <form id="question-form">
+                    <div class="form-group">
+                        <label for="question-input">Your Question:</label>
+                        <textarea 
+                            id="question-input" 
+                            name="question" 
+                            rows="4" 
+                            placeholder="Type your question here..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="n-results">Number of Results:</label>
+                            <input 
+                                type="number" 
+                                id="n-results" 
+                                name="n_results" 
+                                min="1" 
+                                max="20" 
+                                value="5"
+                            >
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    id="use-augmentation" 
+                                    name="use_augmentation" 
+                                    checked
+                                >
+                                Use Query Augmentation
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="ask-button">
+                        <span class="btn-icon">🔍</span>
+                        Ask Question
+                    </button>
+                </form>
+
+                <!-- Loading Spinner -->
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Processing your question...</p>
+                </div>
+
+                <!-- Answer Section -->
+                <div id="answer-section" class="answer-section hidden">
+                    <h3>Answer</h3>
+                    <div id="answer-text" class="answer-text"></div>
+                    
+                    <h4>Retrieved Context (<span id="num-chunks"></span> chunks)</h4>
+                    <div id="context-chunks" class="context-chunks"></div>
+                </div>
+
+                <!-- Error Message -->
+                <div id="error-message" class="error-message hidden"></div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="card stats-card">
+                <h3>System Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Chunks:</span>
+                        <span id="total-chunks" class="stat-value">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Collection:</span>
+                        <span id="collection-name" class="stat-value">-</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-sm" id="refresh-stats">Refresh Stats</button>
+            </div>
+        </div>
+
+        <!-- Settings Tab Content -->
+        <div id="settings-tab" class="tab-content">
+            <div class="card">
+                <h2>Document Paths</h2>
+                <p class="help-text">Manage directories containing your documents (PDF and TXT files)</p>
+
+                <!-- Add Document Path Form -->
+                <form id="add-path-form">
+                    <div class="form-group">
+                        <label for="new-path-input">Add New Document Path:</label>
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                id="new-path-input" 
+                                name="path" 
+                                placeholder="e.g., ./docs or C:/Documents"
+                                required
+                            >
+                            <button type="submit" class="btn btn-primary">
+                                <span class="btn-icon">➕</span>
+                                Add Path
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Current Document Paths -->
+                <div class="path-list-container">
+                    <h3>Current Document Paths:</h3>
+                    <ul id="document-paths-list" class="path-list">
+                        <!-- Paths will be dynamically loaded here -->
+                    </ul>
+                </div>
+
+                <!-- Reindex Button -->
+                <div class="action-buttons">
+                    <button class="btn btn-warning" id="reindex-button">
+                        <span class="btn-icon">🔄</span>
+                        Reindex All Documents
+                    </button>
+                </div>
+            </div>
+
+            <!-- Advanced Settings -->
+            <div class="card">
+                <h2>Advanced Settings</h2>
+                
+                <form id="advanced-settings-form">
+                    <div class="form-group">
+                        <label for="chunk-size">Chunk Size:</label>
+                        <input 
+                            type="number" 
+                            id="chunk-size" 
+                            name="chunk_size" 
+                            min="100" 
+                            max="5000" 
+                            value="1000"
+                        >
+                        <small class="help-text">Size of text chunks for processing</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chunk-overlap">Chunk Overlap:</label>
+                        <input 
+                            type="number" 
+                            id="chunk-overlap" 
+                            name="chunk_overlap" 
+                            min="0" 
+                            max="500" 
+                            value="100"
+                        >
+                        <small class="help-text">Overlap between consecutive chunks</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tokens-per-chunk">Tokens Per Chunk:</label>
+                        <input 
+                            type="number" 
+                            id="tokens-per-chunk" 
+                            name="tokens_per_chunk" 
+                            min="50" 
+                            max="1000" 
+                            value="256"
+                        >
+                        <small class="help-text">Token limit for each chunk</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-icon">💾</span>
+                        Save Settings
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container"></div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

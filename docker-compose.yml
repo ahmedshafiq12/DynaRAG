@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  rag-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-question-answering
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persistent storage for ChromaDB
+      - ./chroma_persistent_storage:/app/chroma_persistent_storage
+      # Mount Premier League data directory
+      - ./premier_league_data:/app/premier_league_data
+      # Mount config file
+      - ./config.json:/app/config.json
+    environment:
+      # Pass HF API key from .env file
+      - HF_API_KEY=${HF_API_KEY}
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/api/stats', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - rag-network
+
+networks:
+  rag-network:
+    driver: bridge
+
+volumes:
+  chroma_data:
